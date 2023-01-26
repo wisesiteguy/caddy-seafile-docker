@@ -1,0 +1,43 @@
+version: '2.0'
+services:
+  db:
+    image: mariadb:10.5
+    container_name: seafile-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=<YOURPASS>  # Requested, set the root's password of MySQL service.
+      - MYSQL_LOG_CONSOLE=true
+    volumes:
+      - /home/<YOURUSER>/docker/seafile/mysql-data:/var/lib/mysql  # Requested, specifies the path to MySQL data persistent store.
+    networks:
+      - seafile-net
+
+  memcached:
+    image: memcached:1.6
+    container_name: seafile-memcached
+    entrypoint: memcached -m 256
+    networks:
+      - seafile-net
+
+  seafile:
+    image: seafileltd/seafile-mc:latest
+    container_name: seafile
+    ports:
+      - "8000:8000"
+      - "8082:8082"
+    volumes:
+      - /home/<YOURUSER>/docker/seafile/seafile-data:/shared   # Requested, specifies the path to Seafile data persistent store.
+    environment:
+      - DB_HOST=db
+      - DB_ROOT_PASSWD=<YOURPASS>  # Requested, the value shuold be root's password of MySQL service.
+      - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      - SEAFILE_ADMIN_EMAIL=<YOURMAIL> # Specifies Seafile admin user, default is 'me@example.com'.
+      - SEAFILE_ADMIN_PASSWORD=<YOURPASS>     # Specifies Seafile admin password, default is 'asecret'.
+      - SEAFILE_SERVER_HOSTNAME=seafile.example.com
+    depends_on:
+      - db
+      - memcached
+    networks:
+      - seafile-net
+
+networks:
+  seafile-net:
