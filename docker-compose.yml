@@ -32,7 +32,7 @@ services:
       - TIME_ZONE=Etc/UTC  # Optional, default is UTC. Should be uncomment and set to your local time zone.
       - SEAFILE_ADMIN_EMAIL=<YOURMAIL> # Specifies Seafile admin user, default is 'me@example.com'.
       - SEAFILE_ADMIN_PASSWORD=<YOURPASS>     # Specifies Seafile admin password, default is 'asecret'.
-      - SEAFILE_SERVER_HOSTNAME=seafile.example.com
+      - SEAFILE_SERVER_HOSTNAME=<seafile.YOURDOMAIN.com>
     depends_on:
       - db
       - memcached
