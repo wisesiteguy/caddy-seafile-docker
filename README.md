@@ -5,4 +5,5 @@
 4. let Seafile build itself "docker-compose up -d"
 5. edit the file gunicorn.conf.py in the folder: "seafile-data/seafile/conf" and replace bind = "127.0.0.1:8000" with bind = "0.0.0.0:8000"
 6. restart seafile-docker "docker-compose restart"
-7. Done.
+7. 7. Once running, in the admin settings, make sure FILE_SERVER_ROOT has 'httpS' added, otherwise the network will fail
+8. Done.
